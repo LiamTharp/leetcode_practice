@@ -1,0 +1,17 @@
+from typing import List
+
+def longestCommonPrefix(strs: List[str]) -> str:
+        
+    if not strs: return ''
+    
+    s1 = min(strs)
+    s2 = max(strs)
+
+    for i, c in enumerate(strs):
+        if c != s2[i]:
+            return s1[:i]
+
+    return s1
+
+print(longestCommonPrefix(["flower","floo","flight"]))
+print(longestCommonPrefix([""]))
