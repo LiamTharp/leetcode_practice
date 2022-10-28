@@ -1,7 +1,11 @@
+
 def multiply(num1: str, num2: str) -> str:
     
+    if not int(num1) or not int(num2): return '0'
+
     product = [0] * (len(num1) + len(num2))
     
+
     for idx, i in enumerate(reversed(num1)):
 
         for jdx, j in enumerate(reversed(num2)):
@@ -13,9 +17,7 @@ def multiply(num1: str, num2: str) -> str:
             product[idx + jdx] %= 10
 
     
-    out = ''.join(map(str, reversed(product))).lstrip('0')
-    
-    return out if len(out) > 0 else '0'
+    return ''.join(map(str, reversed(product))).lstrip('0')
 
 
 print(multiply('999','999'))
