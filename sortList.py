@@ -44,42 +44,59 @@ class ListNode:
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         
-        if not head:
-            return head
-        elif not head.next:
+        if not head or not head.next:
             return head
 
-        front = head
-        swap = 0
+        slow = head
+        fast = head.next
 
-        while True:
-            
-            if head.next.val < head.val:
-                val = head.next.val
-                head.next.val = head.val
-                head.val = val
-                swap += 1
+        while fast.next and fast.next.next:
+            fast = fast.next.next
+            slow = slow.next
+        
+        second = slow.next
+        slow.next = None
 
-            if head.next.next:
-                head = head.next
-            elif swap == 0:
-                break
+        l = self.sortList(head)
+        r = self.sortList(second)
+
+        return self.merge(l, r)
+
+    def merge(self, l, r):
+
+        print(f'Merging {l=} // {r=}', end= '')
+        
+        if l is None:
+            return r
+        elif r is None:
+            return l
+        
+        start = ListNode(0)
+        head = start
+
+        while l and r:
+            if l.val <= r.val:
+                head.next = l
+                l = l.next
             else:
-                head = front
-                swap = 0
-                continue
-            
-            
-        return front
+                head.next = r
+                r = r.next
+            head = head.next
+        
+        head.next = l if r is None else r
+
+        print(f' // {start.next}')
+        return start.next
+        
 
 
 
-input = [2,1]
+
+input = [5,1,2,4]
 
 ll_input = LinkedList(input)
 
-sol = Solution()
-out = sol.sortList(ll_input.head)
+out = Solution.sortList(Solution(), ll_input.head)
 
 print(out)
 
