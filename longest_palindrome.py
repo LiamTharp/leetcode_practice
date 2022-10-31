@@ -1,30 +1,30 @@
 from typing import List
+from collections import defaultdict
 
 class Solution:
     def longestPalindrome(self, words: List[str]) -> int:
         
-        palindromes = matches = 0
+        d = defaultdict(int)
+        ans = unpaired = 0
 
-        for i, word in enumerate(words):
-            
-            words[i] = 0
+        for w in words:
 
-            if word == word[::-1]:
-                
-                if word in words:
-                    matches += 4
-                    words.remove(word[::-1])
+            if w[0] == w[1]:
+                if d[w] > 0:
+                    ans += 4
+                    d[w] -= 1
+                    unpaired -= 1
                 else:
-                    palindromes += 2
-
-            elif word[::-1] in words:
-                matches += 4
-                words.remove(word[::-1])
-        
-        return matches + (palindromes > 0) * 2
-            
-            
-            
+                    unpaired += 1
+                    d[w] += 1
+            else:
+                if d[w[::-1]] > 0:
+                    ans += 4
+                    d[w[::-1]] -= 1
+                else:
+                    d[w] += 1
+        if unpaired > 0: ans += 2
+        return ans
 
 sol = Solution()
 
